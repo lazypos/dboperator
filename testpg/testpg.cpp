@@ -11,10 +11,14 @@ using namespace std;
 void testpg()
 {
 	string	err;
-	dbopt_pg mypg("127.0.0.1","5432","postgres","zcw","123");
+	dbopt_pg mypg("127.0.0.1","5432","postgres","postgres","zcw123");
 	if (mypg.db_open())
 	{
-		if (!mypg.db_exec("create table ccc (id int, name varchar(100))",err))
+		if (!mypg.db_exec("create table aaa (id int, name varchar(100))",err))
+			printf(err.c_str());
+		if (!mypg.db_exec("insert into aaa values(123, 'zzz')",err))
+			printf(err.c_str());
+		if (!mypg.db_exec("insert into aaa (id)values(123)",err))
 			printf(err.c_str());
 		pgrecode_set recode_set;
 		if (mypg.is_connected() && mypg.db_query("select * from aaa", recode_set, err))
@@ -72,8 +76,8 @@ void testsqlite()
 
 int main(int argc, char* argv[])
 {
-	testsqlite();
-
+	//testsqlite();
+	testpg();
 	return 0;
 }
 
